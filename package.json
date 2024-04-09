@@ -14,6 +14,7 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
+    "ctxmenu": "^1.7.0",
     "dragula": "^3.7.3"
   }
 }
