@@ -15,12 +15,22 @@
   ];
 
   onMount(() => {
-    const fieldsDrake = dragula([...drgwrapper.querySelectorAll(".row")], {
+    // console.log(drgwrapper.querySelectorAll(".drgRow"));
+    const fieldsDrake = dragula([...drgwrapper.querySelectorAll(".drgRow")], {
       revertOnSpill: true,
     });
-    fieldsDrake.on("drag", function (event) {
-      console.log("field dragging");
-    });
+    // fieldsDrake.on("drag", function (event) {
+    //   console.log("field dragging");
+    // });
+
+    // FIXME: Can't drag drgRowContainer with handle. The handle drags itself only.
+    // console.log([...drgwrapper.children]);
+    // const rowsDrake = dragula([...drgwrapper.children], {
+    //   moves: function (el, container, handle) {
+    //     console.log({ isHandle: handle.classList.contains("handle") });
+    //     return handle.classList.contains("handle");
+    //   },
+    // });
 
     drgwrapper.addEventListener("contextmenu", (event) => {
       const targetElem = document.elementFromPoint(event.x, event.y);
