@@ -4,6 +4,7 @@
   import "dragula/dist/dragula.min.css";
   import dragula from "dragula";
   import Drg from "./Drg.svelte";
+  import DrgRow from "./DrgRow.svelte";
 
   let drgwrapper;
   let menuDefinition = [
@@ -39,63 +40,37 @@
         ctxmenu.hide();
       }
     });
-
-    // ctxmenu.attach(".drgwrapper", menuDefinition, {
-    //   onBeforeShow: (menuDef, event) => {
-    //     let targetElem = document.elementFromPoint(event.x, event.y);
-    //     let newMapDef;
-    //     if(targetElem.classList.contains("drg")){
-    //       newMapDef = menuDef.map(item => {
-    //         if(item.text.toLowerCase() === "delete") {
-    //           item.action = () => targetElem.parentElement.removeChild(targetElem);
-    //         }
-    //         return item;
-    //       })
-    //     } else {
-    //       newMapDef = [
-    //         {
-    //           text: "Powered by Adera."
-    //         }
-    //       ]
-    //     }
-    //     return newMapDef;
-    //   }
-    // });
-
-    // return () => {
-    //   ctxmenu.delete(".drgwrapper");
-    // }
   });
 </script>
 
 <div class="drgwrapper" bind:this={drgwrapper}>
-  <div class="row">
+  <DrgRow>
     <h2>Form's first row</h2>
-  </div>
-  <div class="row">
+  </DrgRow>
+  <DrgRow>
     <Drg>1</Drg>
     <Drg>2</Drg>
     <Drg>3333333333333333333</Drg>
     <Drg>4</Drg>
-  </div>
-  <div class="row">
+  </DrgRow>
+  <DrgRow>
     <Drg>11</Drg>
     <Drg>22</Drg>
     <Drg>33</Drg>
     <Drg>44</Drg>
-  </div>
-  <div class="row">
+  </DrgRow>
+  <DrgRow>
     <Drg>111</Drg>
     <Drg>222</Drg>
     <Drg>333</Drg>
     <Drg>444</Drg>
-  </div>
-  <div class="row">
+  </DrgRow>
+  <DrgRow>
     <Drg>1111</Drg>
     <Drg>2222</Drg>
     <Drg>3333</Drg>
     <Drg>4444</Drg>
-  </div>
+  </DrgRow>
 </div>
 
 <style>
@@ -107,12 +82,5 @@
   .drgwrapper {
     padding-block: 10px;
     width: 700px;
-  }
-  .drgwrapper .row {
-    display: flex;
-    gap: 5px;
-    border: 1px solid #7c68ee4d;
-    padding: 5px;
-    margin-block: 5px;
   }
 </style>
