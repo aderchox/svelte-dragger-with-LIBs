@@ -1,22 +1,21 @@
 <script>
   import { onMount } from "svelte";
-  import '/node_modules/dragula/dist/dragula.min.css';
+  import "/node_modules/dragula/dist/dragula.min.css";
   import dragula from "dragula";
 
   let drgwrapper;
-  
+
   onMount(() => {
     const drake = dragula([drgwrapper], {
       revertOnSpill: true,
     });
-    drake.on("drag", function(event){
+    drake.on("drag", function (event) {
       console.log("dragging");
-    })
+    });
   });
-
 </script>
 
-<div class="drgwrapper" bind:this="{drgwrapper}">
+<div class="drgwrapper" bind:this={drgwrapper}>
   <div class="drg drg1" draggable="true">111111111111111111111</div>
   <div class="drg drg2" draggable="true">2222222222222222222</div>
   <div class="drg drg3" draggable="true">3333333333333333333</div>
@@ -26,7 +25,7 @@
   .drgwrapper {
     padding-block: 10px;
   }
-  :global(.gu-transit){
+  :global(.gu-transit) {
     opacity: 0;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: "alpha(opacity=0)";
@@ -47,5 +46,4 @@
     /* Don't select content while dragging. */
     user-select: none;
   }
-  
 </style>

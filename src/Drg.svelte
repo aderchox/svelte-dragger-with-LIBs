@@ -2,7 +2,7 @@
 </script>
 
 <div class="drg">
-    <slot>A Form Field</slot>
+  <slot>A Form Field</slot>
 </div>
 
 <style>

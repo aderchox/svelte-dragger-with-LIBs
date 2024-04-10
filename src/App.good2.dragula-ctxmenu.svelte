@@ -1,18 +1,18 @@
 <script>
-	import { ctxmenu } from 'ctxmenu';
+  import { ctxmenu } from "ctxmenu";
   import { onMount } from "svelte";
-  import '/node_modules/dragula/dist/dragula.min.css';
+  import "/node_modules/dragula/dist/dragula.min.css";
   import dragula from "dragula";
   import Drg from "./Drg.svelte";
 
   let drgwrapper;
   let menuDefinition = [
     {
-      "text": "Delete",
-      action: undefined
-    }
-  ]
-  
+      text: "Delete",
+      action: undefined,
+    },
+  ];
+
   onMount(() => {
     // const rowsDrake = dragula([drgwrapper], {
     //   revertOnSpill: true,
@@ -23,39 +23,39 @@
     const fieldsDrake = dragula([...drgwrapper.querySelectorAll(".row")], {
       revertOnSpill: true,
     });
-    fieldsDrake.on("drag", function(event){
+    fieldsDrake.on("drag", function (event) {
       console.log("field dragging");
-    })
+    });
     ctxmenu.attach(".drgwrapper", menuDefinition, {
       onBeforeShow: (menuDef, event) => {
         let targetElem = document.elementFromPoint(event.x, event.y);
         let newMapDef;
-        if(targetElem.classList.contains("drg")){
-          newMapDef = menuDef.map(item => {
-            if(item.text.toLowerCase() === "delete") {
-              item.action = () => targetElem.parentElement.removeChild(targetElem);
+        if (targetElem.classList.contains("drg")) {
+          newMapDef = menuDef.map((item) => {
+            if (item.text.toLowerCase() === "delete") {
+              item.action = () =>
+                targetElem.parentElement.removeChild(targetElem);
             }
             return item;
-          })
+          });
         } else {
           newMapDef = [
             {
-              text: "Powered by Adera."
-            }
-          ]
+              text: "Powered by Adera.",
+            },
+          ];
         }
         return newMapDef;
-      }
+      },
     });
 
     return () => {
       ctxmenu.delete(".drgwrapper");
-    }
+    };
   });
-
 </script>
 
-<div class="drgwrapper" bind:this="{drgwrapper}">
+<div class="drgwrapper" bind:this={drgwrapper}>
   <div class="row">
     <h2>Form's first row</h2>
   </div>
@@ -86,7 +86,7 @@
 </div>
 
 <style>
-  :global(.gu-transit){
+  :global(.gu-transit) {
     opacity: 0;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: "alpha(opacity=0)";
@@ -101,5 +101,5 @@
     border: 1px solid #7c68ee4d;
     padding: 5px;
     margin-block: 5px;
-  }  
+  }
 </style>
