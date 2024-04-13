@@ -1,15 +1,21 @@
 <script>
+  // TODO - A row without any Drgs must self-remove.
+  import { Sortable } from "sortablejs";
   import { onMount } from "svelte";
   import { debounce } from "./lib/util";
 
   let drgRowContainer;
+  let drgRow;
+  // Show controls, specially the handle with the class ".handle".
   let showControls = false;
+  // When hover is locked, stop making any changes to the styles due to whether hovering or unhovering.
+  export let lockHover;
 
   onMount(() => {
-    drgRowContainer.addEventListener("mouseover", () => {
+    drgRowContainer.addEventListener("pointerover", () => {
       // console.log("hovered");
       setTimeout(() => {
-        if (drgRowContainer.matches(":hover")) {
+        if (!lockHover && drgRowContainer.matches(":hover")) {
           drgRowContainer.classList.add("hovered");
           showControls = true;
         }
@@ -18,7 +24,7 @@
 
     let debouncedUnHover = debounce(() => {
       setTimeout(() => {
-        if (!drgRowContainer.matches(":hover")) {
+        if (!lockHover && !drgRowContainer.matches(":hover")) {
           drgRowContainer.classList.remove("hovered");
           showControls = false;
         }
@@ -27,6 +33,13 @@
     drgRowContainer.addEventListener("mouseleave", () => {
       debouncedUnHover();
     });
+
+    Sortable.create(drgRow, {
+      // Needed in order to be able to drag items cross-rows, ie, from one row to another.
+      group: "drg-row-group",
+      animation: 300,
+      easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+    });
   });
 </script>
 
@@ -34,21 +47,30 @@
   {#if showControls}
     <div class="handle">:::</div>
   {/if}
-  <div class="drgRow">
+  <div class="drgRow" bind:this={drgRow}>
     <slot>Draggable Row</slot>
   </div>
 </div>
 
 <style>
   .drgRowContainer {
-    border: 1px solid #7c68ee4d;
+    /* Border rule was moved to the hover state. */
+    /* border: 1px solid #7c68ee4d; */
     padding: 5px;
     margin-block: 5px;
     position: relative;
     transition: margin 400ms;
   }
   .drgRowContainer:global(.hovered) {
+    border: 1px solid #7c68ee4d;
     margin-block: 30px;
+  }
+  /* Sortable is giving this ".chosen" class to it when it gets chosen. */
+  .drgRowContainer:global(.chosen) {
+    border: #cdc6f8 3px solid;
+    /* margins to compensate for the 1px -> 3px increase in order to prevent scaling of the item. */
+    margin-block: 28px;
+    margin-inline: -1px;
   }
   .drgRow {
     display: flex;

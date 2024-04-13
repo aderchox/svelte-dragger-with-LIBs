@@ -15,6 +15,6 @@
   },
   "dependencies": {
     "ctxmenu": "^1.7.0",
-    "dragula": "^3.7.3"
+    "sortablejs": "^1.15.2"
   }
 }

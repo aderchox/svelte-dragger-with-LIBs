@@ -1,12 +1,12 @@
 <script>
   import { ctxmenu } from "ctxmenu";
   import { onMount } from "svelte";
-  import "dragula/dist/dragula.min.css";
-  import dragula from "dragula";
   import Drg from "./Drg.svelte";
   import DrgRow from "./DrgRow.svelte";
+  import Sortable from "sortablejs";
 
   let drgwrapper;
+  let isDragging = false;
   let menuDefinition = [
     {
       text: "Delete",
@@ -15,22 +15,28 @@
   ];
 
   onMount(() => {
-    // console.log(drgwrapper.querySelectorAll(".drgRow"));
-    const fieldsDrake = dragula([...drgwrapper.querySelectorAll(".drgRow")], {
-      revertOnSpill: true,
+    Sortable.create(drgwrapper, {
+      // class of the drop placeholder
+      ghostClass: "drgrow-sortable-ghost",
+      // class of the item following the mouse (the transparent clone being dragged)
+      dragClass: "drgrow-sortable-drag",
+      animation: 300,
+      easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+      handle: ".handle",
+      onStart: () => {
+        // To lock hover effect of all rows during the dragging
+        isDragging = true;
+      },
+      onEnd: () => {
+        isDragging = false;
+      },
+      onChoose: (e) => {
+        e.item.classList.add("chosen");
+      },
+      onUnchoose: (e) => {
+        e.item.classList.remove("chosen");
+      },
     });
-    // fieldsDrake.on("drag", function (event) {
-    //   console.log("field dragging");
-    // });
-
-    // FIXME: Can't drag drgRowContainer with handle. The handle drags itself only.
-    // console.log([...drgwrapper.children]);
-    // const rowsDrake = dragula([...drgwrapper.children], {
-    //   moves: function (el, container, handle) {
-    //     console.log({ isHandle: handle.classList.contains("handle") });
-    //     return handle.classList.contains("handle");
-    //   },
-    // });
 
     drgwrapper.addEventListener("contextmenu", (event) => {
       const targetElem = document.elementFromPoint(event.x, event.y);
@@ -54,28 +60,28 @@
 </script>
 
 <div class="drgwrapper" bind:this={drgwrapper}>
-  <DrgRow>
+  <DrgRow lockHover={isDragging}>
     <h2>Form's first row</h2>
   </DrgRow>
-  <DrgRow>
+  <DrgRow lockHover={isDragging}>
     <Drg>1</Drg>
     <Drg>2</Drg>
     <Drg>3333333333333333333</Drg>
     <Drg>4</Drg>
   </DrgRow>
-  <DrgRow>
+  <DrgRow lockHover={isDragging}>
     <Drg>11</Drg>
     <Drg>22</Drg>
     <Drg>33</Drg>
     <Drg>44</Drg>
   </DrgRow>
-  <DrgRow>
+  <DrgRow lockHover={isDragging}>
     <Drg>111</Drg>
     <Drg>222</Drg>
     <Drg>333</Drg>
     <Drg>444</Drg>
   </DrgRow>
-  <DrgRow>
+  <DrgRow lockHover={isDragging}>
     <Drg>1111</Drg>
     <Drg>2222</Drg>
     <Drg>3333</Drg>
@@ -93,4 +99,11 @@
     padding-block: 10px;
     width: 700px;
   }
+  :global(.drgrow-sortable-drag) {
+    opacity: 0;
+  }
+  /* :global(.drgrow-sortable-ghost) {
+    background-color: #eee;
+    border-radius: 5px;
+  } */
 </style>
