@@ -4,12 +4,16 @@
   import { onMount } from "svelte";
   import { debounce } from "./lib/util";
 
+  // When hover is locked, stop making any changes to the styles due to whether hovering or unhovering.
+  export let lockHover;
   let drgRowContainer;
   let drgRow;
   // Show controls, specially the handle with the class ".handle".
   let showControls = false;
-  // When hover is locked, stop making any changes to the styles due to whether hovering or unhovering.
-  export let lockHover;
+  let debouncedUnHover = () => {};
+
+  // When hover state terminates (user moves mouse outside the hover area), if an unhover handler is skipped due to lockHover being true (referring to the conditional inside debouncedUnHover), then debouncedUnhover will not re-trigger automatically once again when lockHover turns off (normally, it just gets triggered due to pointerleave).
+  $: !lockHover && debouncedUnHover();
 
   onMount(() => {
     drgRowContainer.addEventListener("pointerover", () => {
@@ -22,15 +26,18 @@
       }, 400);
     });
 
-    let debouncedUnHover = debounce(() => {
+    // REVIEW - Once context menu is used, eg, "Delete", this function re-triggers a few times. (Turning lockHover into a global state is probably a better option.)
+    debouncedUnHover = debounce(() => {
       setTimeout(() => {
+        // console.log("debouncedUnHover - condition check");
         if (!lockHover && !drgRowContainer.matches(":hover")) {
+          // console.log("debouncedUnHover - applied");
           drgRowContainer.classList.remove("hovered");
           showControls = false;
         }
       }, 300);
     }, 300);
-    drgRowContainer.addEventListener("mouseleave", () => {
+    drgRowContainer.addEventListener("pointerleave", () => {
       debouncedUnHover();
     });
 

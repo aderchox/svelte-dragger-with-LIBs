@@ -26,6 +26,7 @@
       onStart: () => {
         // To lock hover effect of all rows during the dragging
         isDragging = true;
+        ctxmenu.hide();
       },
       onEnd: () => {
         isDragging = false;
@@ -43,6 +44,7 @@
       if (targetElem.classList.contains("drg")) {
         ctxmenu.show(menuDefinition, event, {
           onBeforeShow: (menuDef, event) => {
+            isDragging = true;
             return menuDef.map((item) => {
               if (item.text.toLowerCase() === "delete") {
                 item.action = () =>
@@ -50,6 +52,10 @@
               }
               return item;
             });
+          },
+          onHide: () => {
+            isDragging = false;
+            // console.log("isDragging changed to: ", isDragging);
           },
         });
       } else {
