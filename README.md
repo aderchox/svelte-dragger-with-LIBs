@@ -1,9 +1,9 @@
-# Svelte + Dragula
+# Svelte + Sortable Dragger
 
 ## TODOS:
 
 - [x] A 4 x 4 grid of squares, swapped around by dragging
-- [ ] Allow deleting and adding rows (with confirmation)
+- [ ] Allow deleting and adding rows (deletion with confirmation)
 - [ ] Add the two optional headings: rowHeading, and rowSubHeading
 
 ## ISSUES:
