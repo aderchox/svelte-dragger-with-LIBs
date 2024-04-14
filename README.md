@@ -2,9 +2,9 @@
 
 ## TODOS:
 
-- [x] A 4 x 4 grid of squares, swapped around by dragging with dragula
+- [x] A 4 x 4 grid of squares, swapped around by dragging
+- [ ] Allow deleting and adding rows (with confirmation)
 - [ ] Add the two optional headings: rowHeading, and rowSubHeading
-
 
 ## ISSUES:
 
@@ -13,4 +13,4 @@
 - [x] Dragging "drg"s ends :hover state of "drgRowContainer".
 - [x] Hovering over context menu ends :hover state of "drgRowContainer".
 - [x] An open context menu must get closed when a dragging starts
-- [x] Either leaving the ".drgwrapper" must close the context menu, or clicking somewhere (other than the menu) must close it. (Sounds like I need some global store to coordinate the states of the context menu and the drag area.) (// TODO - fixed without a store for now, but a store would be neater.)
+- [x] Either leaving the ".rowsWrapper" must close the context menu, or clicking somewhere other than the menu (even if outside ".rowsWrapper") must close it. (Sounds like I need some global store to coordinate the states of the context menu and the drag area.) (// TODO - fixed without a store for now, but a store would be neater.)

@@ -4,8 +4,9 @@
   import Drg from "./Drg.svelte";
   import DrgRow from "./DrgRow.svelte";
   import Sortable from "sortablejs";
+  import AddDrgRowButton from "./AddDrgRowButton.svelte";
 
-  let drgwrapper;
+  let rowsWrapper;
   let isDragging = false;
   let menuDefinition = [
     {
@@ -15,7 +16,7 @@
   ];
 
   onMount(() => {
-    Sortable.create(drgwrapper, {
+    Sortable.create(rowsWrapper, {
       // class of the drop placeholder
       ghostClass: "drgrow-sortable-ghost",
       // class of the item following the mouse (the transparent clone being dragged)
@@ -39,7 +40,7 @@
       },
     });
 
-    drgwrapper.addEventListener("contextmenu", (event) => {
+    rowsWrapper.addEventListener("contextmenu", (event) => {
       const targetElem = document.elementFromPoint(event.x, event.y);
       if (targetElem.classList.contains("drg")) {
         ctxmenu.show(menuDefinition, event, {
@@ -65,7 +66,7 @@
   });
 </script>
 
-<div class="drgwrapper" bind:this={drgwrapper}>
+<div class="rowsWrapper" bind:this={rowsWrapper}>
   <DrgRow lockHover={isDragging}>
     <h2>Form's first row</h2>
   </DrgRow>
@@ -94,6 +95,7 @@
     <Drg>4444</Drg>
   </DrgRow>
 </div>
+<AddDrgRowButton {rowsWrapper} />
 
 <style>
   :global(.gu-transit) {
@@ -101,7 +103,7 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: "alpha(opacity=0)";
   }
-  .drgwrapper {
+  .rowsWrapper {
     padding-block: 10px;
     width: 700px;
   }
