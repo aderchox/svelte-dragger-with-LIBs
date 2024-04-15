@@ -1,0 +1,19 @@
+<script>
+  export let cls;
+  export let message;
+</script>
+
+<span class={cls}>{message}</span>
+
+<style>
+  span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
