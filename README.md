@@ -3,9 +3,10 @@
 ## TODOS:
 
 - [x] A 4 x 4 grid of squares, swapped around by dragging
-- [ ] Allow locking row controls (ie, hovering on rows will neither epxand them, no show their controls)
+- [x] Allow locking row controls (ie, hovering on rows will neither epxand them, no show their controls)
 - [x] Allow adding new rows
 - [ ] Allow deleting rows (with confirmation)
+- [ ] Allow resizing fields
 - [ ] Add the two optional headings: rowHeading, and rowSubHeading
 
 ## ISSUES:

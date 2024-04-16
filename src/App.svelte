@@ -1,10 +1,11 @@
 <script>
   import { ctxmenu } from "ctxmenu";
-  import { onMount } from "svelte";
+  import { afterUpdate, onMount } from "svelte";
   import Drg from "./Drg.svelte";
   import DrgRow from "./DrgRow.svelte";
   import Sortable from "sortablejs";
-  import AddDrgRowButton from "./AddDrgRowButton.svelte";
+  // import AddDrgRowButton from "./AddDrgRowButton.svelte";
+  import LayoutLockButton from "./LayoutLockButton.svelte";
 
   let rowsWrapper;
   let isDragging = false;
@@ -14,6 +15,8 @@
       action: undefined,
     },
   ];
+  let isLayoutLocked = false;
+  let dynamicaDrgRows = [];
 
   onMount(() => {
     Sortable.create(rowsWrapper, {
@@ -64,38 +67,56 @@
       }
     });
   });
+
+  function addDrgRow() {
+    const newDrgRow = new DrgRow({
+      target: rowsWrapper,
+      props: {
+        // NOTE - Changes to `isLayoutLocked` will not be explicit assignment and are considered mutation of this prop here, so requires explicit assignment in afterUpdate.
+        lockHover: isLayoutLocked,
+      },
+    });
+    dynamicaDrgRows.push(newDrgRow);
+  }
+
+  afterUpdate(() => {
+    // Fixes the issue mentioned in addDrgRow.
+    // NOTE - Doing this requires setting a compiler option `accessors: true` in the svelte.config.js.
+    dynamicaDrgRows.forEach((drgRow) => (drgRow.lockHover = isLayoutLocked));
+  });
 </script>
 
+<LayoutLockButton bind:isLocked={isLayoutLocked} />
 <div class="rowsWrapper" bind:this={rowsWrapper}>
-  <DrgRow lockHover={isDragging}>
+  <DrgRow lockHover={isLayoutLocked || isDragging}>
     <h2>Form's first row</h2>
   </DrgRow>
-  <DrgRow lockHover={isDragging}>
-    <Drg>1</Drg>
-    <Drg>2</Drg>
-    <Drg>3333333333333333333</Drg>
-    <Drg>4</Drg>
+  <DrgRow lockHover={isLayoutLocked || isDragging}>
+    <Drg lockHover={isLayoutLocked}>1</Drg>
+    <Drg lockHover={isLayoutLocked}>2</Drg>
+    <Drg lockHover={isLayoutLocked}>3333333333333333333</Drg>
+    <Drg lockHover={isLayoutLocked}>4</Drg>
   </DrgRow>
-  <DrgRow lockHover={isDragging}>
-    <Drg>11</Drg>
-    <Drg>22</Drg>
-    <Drg>33</Drg>
-    <Drg>44</Drg>
+  <DrgRow lockHover={isLayoutLocked || isDragging}>
+    <Drg lockHover={isLayoutLocked}>11</Drg>
+    <Drg lockHover={isLayoutLocked}>22</Drg>
+    <Drg lockHover={isLayoutLocked}>33</Drg>
+    <Drg lockHover={isLayoutLocked}>44</Drg>
   </DrgRow>
-  <DrgRow lockHover={isDragging}>
-    <Drg>111</Drg>
-    <Drg>222</Drg>
-    <Drg>333</Drg>
-    <Drg>444</Drg>
+  <DrgRow lockHover={isLayoutLocked || isDragging}>
+    <Drg lockHover={isLayoutLocked}>111</Drg>
+    <Drg lockHover={isLayoutLocked}>222</Drg>
+    <Drg lockHover={isLayoutLocked}>333</Drg>
+    <Drg lockHover={isLayoutLocked}>444</Drg>
   </DrgRow>
-  <DrgRow lockHover={isDragging}>
-    <Drg>1111</Drg>
-    <Drg>2222</Drg>
-    <Drg>3333</Drg>
-    <Drg>4444</Drg>
+  <DrgRow lockHover={isLayoutLocked || isDragging}>
+    <Drg lockHover={isLayoutLocked}>1111</Drg>
+    <Drg lockHover={isLayoutLocked}>2222</Drg>
+    <Drg lockHover={isLayoutLocked}>3333</Drg>
+    <Drg lockHover={isLayoutLocked}>4444</Drg>
   </DrgRow>
 </div>
-<AddDrgRowButton {rowsWrapper} />
+<button on:click={addDrgRow} class="addDrgRow">(+) Add New Row</button>
 
 <style>
   :global(.gu-transit) {
@@ -109,6 +130,9 @@
   }
   :global(.drgrow-sortable-drag) {
     opacity: 0;
+  }
+  .addDrgRow {
+    user-select: none;
   }
   /* :global(.drgrow-sortable-ghost) {
     background-color: #eee;
