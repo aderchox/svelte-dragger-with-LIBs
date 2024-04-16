@@ -1,10 +1,9 @@
 <script>
   import { ctxmenu } from "ctxmenu";
-  import { afterUpdate, onMount } from "svelte";
+  import { onMount } from "svelte";
   import Drg from "./Drg.svelte";
   import DrgRow from "./DrgRow.svelte";
   import Sortable from "sortablejs";
-  // import AddDrgRowButton from "./AddDrgRowButton.svelte";
   import LayoutLockButton from "./LayoutLockButton.svelte";
 
   let rowsWrapper;
@@ -45,7 +44,7 @@
 
     rowsWrapper.addEventListener("contextmenu", (event) => {
       const targetElem = document.elementFromPoint(event.x, event.y);
-      if (targetElem.classList.contains("drg")) {
+      if (!isLayoutLocked && targetElem.classList.contains("drg")) {
         ctxmenu.show(menuDefinition, event, {
           onBeforeShow: (menuDef, event) => {
             isDragging = true;
@@ -79,11 +78,9 @@
     dynamicaDrgRows.push(newDrgRow);
   }
 
-  afterUpdate(() => {
-    // Fixes the issue mentioned in addDrgRow.
-    // NOTE - Doing this requires setting a compiler option `accessors: true` in the svelte.config.js.
-    dynamicaDrgRows.forEach((drgRow) => (drgRow.lockHover = isLayoutLocked));
-  });
+  // Fixes the issue mentioned in addDrgRow.
+  // NOTE - Doing this requires setting a compiler option `accessors: true` in the svelte.config.js.
+  $: dynamicaDrgRows.forEach((row) => (row.lockHover = isLayoutLocked));
 </script>
 
 <LayoutLockButton bind:isLocked={isLayoutLocked} />

@@ -1,9 +1,10 @@
 <script>
-  export let cls;
+  // The name "class" is a JavaScript reserved keyword, so may not be used here.
+  export let className;
   export let message;
 </script>
 
-<span class={cls}>{message}</span>
+<span class={className}>{message}</span>
 
 <style>
   span {

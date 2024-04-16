@@ -55,15 +55,16 @@
       filter: `.${PLACEHOLDER_CLASS}`,
     });
 
+    // --- If it has no .drgs and no placeholders (no children), then add a placeholder.
+    //     --- Not run again in infinite loop, since it will have a placeholder next time.
+    // --- If it has .drgs, then remove possible existing placeholder.
+    //     --- Run again only once after placeholder is removed, and then no more DOM mutations, no infinite loops again.
     function onDrgRowChange(mutations, observer) {
-      // debugger;
-      // for (const mutation of mutations) {
-      // }
       if ([...drgRow.children].length === 0) {
         new SlotPlaceholder({
           target: drgRow,
           props: {
-            cls: PLACEHOLDER_CLASS,
+            className: PLACEHOLDER_CLASS,
             message: "Row",
           },
         });
@@ -91,7 +92,8 @@
   <!-- #region DRGROW -->
   <div class="drgRow" bind:this={drgRow}>
     <slot>
-      <SlotPlaceholder cls={PLACEHOLDER_CLASS} message="Row"></SlotPlaceholder>
+      <SlotPlaceholder className={PLACEHOLDER_CLASS} message="Row"
+      ></SlotPlaceholder>
     </slot>
   </div>
 </div>

@@ -8,6 +8,8 @@
 - [ ] Allow deleting rows (with confirmation)
 - [ ] Allow resizing fields
 - [ ] Add the two optional headings: rowHeading, and rowSubHeading
+- [ ] Allow adding predefined field cells to rows (eg, text field, select, etc.)
+- [ ] Give a raw export (stripped from layouting helper visuals) of the output layout with UIDs for fields
 
 ## ISSUES:
 
